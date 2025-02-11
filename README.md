@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-commerce Store with Next.js
+
+A modern, responsive e-commerce store built with Next.js 14, TypeScript, and Tailwind CSS.
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Architecture & Design Decisions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Tech Stack
+- **Next.js 14**: For server-side rendering, routing, and overall framework
+- **TypeScript**: For type safety and better developer experience
+- **Tailwind CSS**: For utility-first styling and responsive design
+- **Context API**: For global state management (cart functionality)
+
+### Key Features
+1. **Server-Side Product Generation**
+   - Uses a base product API with variant generation for a larger catalog
+   - Implements caching and revalidation strategies
+   - Handles API failures gracefully with fallback data
+
+2. **Responsive Design**
+   - Mobile-first approach
+   - Optimized layouts for different screen sizes
+   - Touch-friendly interactions
+   - Smooth animations and transitions
+
+3. **Performance Optimizations**
+   - Image optimization with Next.js Image component
+   - Infinite scrolling for product listing
+   - Client-side filtering and sorting
+   - Efficient state management
+
+4. **Shopping Cart**
+   - Persistent cart state using Context API
+   - Real-time price calculations
+   - Quantity management
+   - Responsive cart interface
+
+### Trade-offs & Considerations
+
+1. **Data Management**
+   - Used client-side filtering/sorting for better UX
+   - Trade-off: Larger initial payload but smoother interactions
+
+2. **API Integration**
+   - Generated product variants client-side
+   - Trade-off: More processing but less API dependency
+
+3. **State Management**
+   - Used Context API instead of more complex solutions
+   - Trade-off: Simpler implementation but might need refactoring for larger scale
+
+4. **Styling Approach**
+   - Chose Tailwind for rapid development
+   - Trade-off: Larger HTML but faster development and better maintainability
+
+### Future Improvements
+
+1. **Features**
+   - User authentication
+   - Checkout process
+   - Order history
+   - Product reviews
+
+2. **Technical**
+   - Server-side filtering and pagination
+   - More robust error handling
+   - Unit and integration tests
+   - Performance monitoring
+
+3. **UX/UI**
+   - Dark mode improvements
+   - More animations
+   - Accessibility enhancements
+   - Loading states
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+The easiest way to deploy this app is to use the [Vercel Platform](https://vercel.com/new).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
