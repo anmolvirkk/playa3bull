@@ -1,8 +1,14 @@
+import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Product } from '@/app/types';
 import AddToCartButton from '@/app/components/AddToCartButton';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
 // Helper function to validate product ID
 function isValidProductId(id: string): boolean {
@@ -55,11 +61,22 @@ async function getProduct(id: string): Promise<Product | null> {
   }
 }
 
-interface PageProps {
-  params: { id: string };
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const product = await getProduct(params.id);
+  
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+    };
+  }
+
+  return {
+    title: product.title,
+    description: product.description,
+  };
 }
 
-export default async function ProductPage({ params }: PageProps) {
+export default async function ProductPage({ params }: Props) {
   // Validate and sanitize the ID
   const sanitizedId = params?.id?.replace(/[^0-9]/g, '');
   

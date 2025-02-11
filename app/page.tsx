@@ -9,10 +9,6 @@ import { getEnhancedProducts } from './utils/generateProducts';
 
 const ITEMS_PER_PAGE = 8;
 
-async function getProducts(): Promise<Product[]> {
-  return getEnhancedProducts();
-}
-
 export default function Home() {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
@@ -20,14 +16,24 @@ export default function Home() {
   const [sort, setSort] = useState('default');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Fetch initial products
   useEffect(() => {
     const fetchProducts = async () => {
-      const products = await getProducts();
-      setAllProducts(products);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const products = await getEnhancedProducts();
+        setAllProducts(products);
+        setDisplayedProducts(products.slice(0, ITEMS_PER_PAGE));
+      } catch (err) {
+        setError('Failed to load products');
+        console.error('Error fetching products:', err);
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchProducts();
   }, []);
 
@@ -97,9 +103,33 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
-      </div>
+      <main className="min-h-screen pt-14 sm:pt-16">
+        <div className="h-[30vh] sm:h-[40vh] min-h-[250px] sm:min-h-[400px]" /> {/* Placeholder for hero */}
+        <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-20">
+          <div className="flex justify-center">
+            <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen pt-14 sm:pt-16">
+        <div className="h-[30vh] sm:h-[40vh] min-h-[250px] sm:min-h-[400px]" /> {/* Placeholder for hero */}
+        <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-20">
+          <div className="text-center">
+            <p className="text-red-500 mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-3 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </main>
     );
   }
 
